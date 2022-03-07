@@ -44,4 +44,6 @@ bool getLocalIP(std::string ip);
 
 int kernel_request_handle_wifi_connect(KernelPacket &ptr);
 
+int kernel_request_handle_wifi_disconnect(KernelPacket &ptr);
+
 int kernel_request_handle_wifi_get_ip(KernelPacket &ptr);

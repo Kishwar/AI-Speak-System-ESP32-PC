@@ -101,6 +101,11 @@ int kernel_request_handle_wifi_connect(KernelPacket &ptr)
   return 0;
 }
 
+int kernel_request_handle_wifi_disconnect(KernelPacket &ptr)
+{
+  return 0;
+}
+
 int kernel_request_handle_wifi_get_ip(KernelPacket &ptr)
 {
   return 0;

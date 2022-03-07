@@ -47,6 +47,11 @@ KernelHandler hdl[] = {
   KERNEL_REQUEST_CONNECT_TO_WIFI_RSP,
   kernel_request_handle_wifi_connect,
 
+  //wifi disconnect
+  KERNEL_REQUEST_DISCONNECT_WIFI_REQ,
+  KERNEL_REQUEST_DISCONNECT_WIFI_RSP,
+  kernel_request_handle_wifi_disconnect,
+
   //wifi get ip
   KERNEL_REQUEST_GET_WIFI_IP_REQ,
   KERNEL_REQUEST_GET_WIFI_IP_RSP,
