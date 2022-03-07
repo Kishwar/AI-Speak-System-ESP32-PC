@@ -1,0 +1,2 @@
+/Users/kishwarkumar/Desktop/AI-Speak-System-ESP32-PC/build/CMakeFiles/rebuild_cache.dir
+/Users/kishwarkumar/Desktop/AI-Speak-System-ESP32-PC/build/CMakeFiles/edit_cache.dir
