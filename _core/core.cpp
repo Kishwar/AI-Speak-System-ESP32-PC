@@ -11,7 +11,6 @@
  */
 
 #include "core.hpp"
-#include "esp_log.h"
 #include "wifi.hpp"
 
 #include <freertos/FreeRTOS.h>
@@ -31,13 +30,11 @@ QueueHandle_t xQueue_Receive = NULL;
 QueueHandle_t xQueue_Send = NULL;
 QueueHandle_t xQueue_Ind = NULL;
 
-KernelPacket recv;
-
-static void _handle_recv(KernelPacket *ptr);
+static void _handle_recv(KernelPacket &ptr);
 
 #define CHECK_TRUE(x) \
   if(!(x)) { \
-    ESP_LOGE(TAG, "Check failed. %s %d", __func__, __LINE__); \
+    LOG_INFO(TAG, "Check failed."); \
     configASSERT(!(x)); \
   } \
 
@@ -61,16 +58,16 @@ KernelHandler hdl[] = {
 
   //read
 
-
 };
 
 static void _thread_received(void *ptr)
 {
+  KernelPacket recv;
   while(true) {
     if(xQueueReceive(xQueue_Receive, &recv, portMAX_DELAY) == pdPASS) {
       
       //handle recv
-      _handle_recv(&recv);
+      _handle_recv(recv);
 
       //clear memory
       if(recv.ptr != NULL) free(recv.ptr);
@@ -97,7 +94,7 @@ void kernel_core(void *ptr)
 {
   esp_log_level_set(TAG, ESP_LOG_INFO);
 
-  ESP_LOGI(TAG, "kernel_core thread starting ...");
+  LOG_INFO(TAG, "kernel_core thread starting ...");
 
   //start receive queue & thread
   xQueue_Receive = xQueueCreate(RECEIVE_QUEUE_LENGTH, sizeof(KernelPacket));
@@ -120,23 +117,38 @@ void kernel_core(void *ptr)
   xTask_Ind = xTaskCreate(_thread_ind, "THREAD_IND", 4096, NULL, 10, NULL);
   CHECK_TRUE(xTask_Ind == pdPASS);
 
-  ESP_LOGI(TAG, "kernel_core queues and threads started ...");
+  LOG_INFO(TAG, "kernel_core queues and threads started ...");
 
   vTaskDelete(NULL);
 }
 
-void _handle_recv(KernelPacket *ptr)
+void _handle_recv(KernelPacket &ptr)
 {
-  if(ptr == NULL) return;
-
+  LOG_INFO(TAG, "received message %d", ptr.identifier);
   int len = sizeof(hdl) / sizeof(hdl[0]);
   int i = 0;
   while(i < len) {
-    if(hdl[i].req == ptr->identifier) {
+    if(hdl[i].req == ptr.identifier) {
       //handle the case here
-      hdl[i].hdl(*ptr);
+      hdl[i].hdl(ptr);
       break;
     }
-    i += abs(ptr->identifier - hdl[i].req);
+    i += abs(ptr.identifier - hdl[i].req);
   }
+}
+
+
+int kernel_request_handle_wifi_connect(KernelPacket &v)
+{
+  return 0;
+}
+
+int kernel_request_handle_wifi_disconnect(KernelPacket &v)
+{
+  return 0;
+}
+
+int kernel_request_handle_wifi_get_ip(KernelPacket &v)
+{
+  return 0;
 }

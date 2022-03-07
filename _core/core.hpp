@@ -14,34 +14,20 @@
 #define _CORE_HPP_
 
 #include <stdint.h>
+#include <string>
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/queue.h>
+
+#include "esp_log.h"
+#include "interface.hpp"
 
 extern QueueHandle_t xQueue_Receive;
 extern QueueHandle_t xQueue_Send;
 extern QueueHandle_t xQueue_Ind;
 
-enum KernelReq {
-  KERNEL_REQUEST_CONNECT_TO_WIFI_REQ,
-  KERNEL_REQUEST_DISCONNECT_WIFI_REQ,
-  KERNEL_REQUEST_GET_WIFI_IP_REQ,
-  KERNEL_REQUEST_INVALID_VALUE_REQ = 0xFF
-};
-
-enum KernelRsp {
-  KERNEL_REQUEST_CONNECT_TO_WIFI_RSP,
-  KERNEL_REQUEST_DISCONNECT_WIFI_RSP,
-  KERNEL_REQUEST_GET_WIFI_IP_RSP,
-  KERNEL_REQUEST_INVALID_VALUE_RSP = 0xFF
-};
-
-struct KernelPacket
-{
-  int identifier;
-  uint8_t *ptr;
-  uint32_t ptr_len;
-};
+#define LOG_INFO(tag, format, ...) \
+  ESP_LOGI(tag, "%06d %s: " format, __LINE__, __func__, ##__VA_ARGS__); \
 
 typedef int (*req_handl) (KernelPacket &);
 
@@ -53,5 +39,11 @@ struct KernelHandler
 };
 
 void kernel_core(void *ptr);
+
+int kernel_request_handle_wifi_connect(KernelPacket &);
+
+int kernel_request_handle_wifi_disconnect(KernelPacket &);
+
+int kernel_request_handle_wifi_get_ip(KernelPacket &);
 
 #endif // _CORE_HPP_

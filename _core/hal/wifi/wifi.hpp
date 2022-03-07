@@ -42,8 +42,8 @@ bool isconnected(void);
  */
 bool getLocalIP(std::string ip);
 
-int kernel_request_handle_wifi_connect(KernelPacket &ptr);
+int kernel_request_handle_wifi_connect(std::string &ssid, std::string &pass);
 
-int kernel_request_handle_wifi_disconnect(KernelPacket &ptr);
+int kernel_request_handle_wifi_disconnect(std::string &ssid);
 
-int kernel_request_handle_wifi_get_ip(KernelPacket &ptr);
+int kernel_request_handle_wifi_get_ip(std::string &ip);

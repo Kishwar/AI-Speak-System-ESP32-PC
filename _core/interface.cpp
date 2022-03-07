@@ -11,6 +11,7 @@
  */
 
 #include "interface.hpp"
+#include "core.hpp"
 
 int create_interface(KernelPacket &pmsg, int size, int id)
 {
@@ -22,6 +23,11 @@ int create_interface(KernelPacket &pmsg, int size, int id)
 
 void destroy_interface(KernelPacket &pmsg)
 {
-  delete[] pmsg.ptr;
+  delete[] static_cast<uint8_t *>(pmsg.ptr);
   pmsg.ptr = NULL;
+}
+
+int send_recv_interface_sync(int id, KernelPacket &req, KernelPacket &rsp)
+{
+  return 0;
 }

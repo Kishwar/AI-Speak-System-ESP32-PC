@@ -96,17 +96,18 @@ bool getLocalIP(std::string ip)
   return false;
 }
 
-int kernel_request_handle_wifi_connect(KernelPacket &ptr)
+int kernel_request_handle_wifi_connect(std::string &ssid, std::string &pass)
+{
+
+  return 0;
+}
+
+int kernel_request_handle_wifi_disconnect(std::string &ssid)
 {
   return 0;
 }
 
-int kernel_request_handle_wifi_disconnect(KernelPacket &ptr)
-{
-  return 0;
-}
-
-int kernel_request_handle_wifi_get_ip(KernelPacket &ptr)
+int kernel_request_handle_wifi_get_ip(std::string &ip)
 {
   return 0;
 }
