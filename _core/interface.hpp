@@ -14,6 +14,7 @@
 #define _INTERFACE_HPP_
 
 #include <stdint.h>
+#include <string>
 
 enum KernelReq {
   KERNEL_REQUEST_CONNECT_TO_WIFI_REQ,
@@ -36,10 +37,23 @@ struct KernelPacket
   uint32_t ptr_len;
 };
 
-int create_interface(KernelPacket &pmsg, int id);
+int create_interface(KernelPacket &, int);
 
-void destroy_interface(KernelPacket &pmsg);
+void destroy_interface(KernelPacket &);
 
-int send_recv_interface_sync(int id, KernelPacket &req, KernelPacket &rsp);
+int send_recv_interface_async(KernelPacket &);
+
+// ----- req / rsp for different tasks ------
+struct interface_wifi_connect_req
+{
+  std::string ssid;
+  std::string pass;
+};
+
+struct interface_wifi_connect_rsp
+{
+  int result;
+  std::string ip;
+};
 
 #endif // _INTERFACE_HPP_

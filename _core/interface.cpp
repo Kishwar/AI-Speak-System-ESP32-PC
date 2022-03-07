@@ -27,7 +27,7 @@ void destroy_interface(KernelPacket &pmsg)
   pmsg.ptr = NULL;
 }
 
-int send_recv_interface_sync(int id, KernelPacket &req, KernelPacket &rsp)
+int send_recv_interface_async(KernelPacket &req)
 {
-  return 0;
+  return kernel_add_to_req_queue(req);
 }

@@ -38,7 +38,9 @@ struct KernelHandler
   req_handl hdl;
 };
 
-void kernel_core(void *ptr);
+void kernel_core(void *);
+
+int kernel_add_to_req_queue(KernelPacket &);
 
 int kernel_request_handle_wifi_connect(KernelPacket &);
 

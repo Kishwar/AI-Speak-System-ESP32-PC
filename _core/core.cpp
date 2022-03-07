@@ -137,10 +137,32 @@ void _handle_recv(KernelPacket &ptr)
   }
 }
 
+int kernel_add_to_req_queue(KernelPacket &req)
+{
+  LOG_INFO(TAG, "received message %d", req.identifier);
 
+  //we just need to wait for 10 ticks
+  if(xQueueSend(xQueue_Receive, &req, 10) == pdPASS) {
+    return 0;
+  }
+
+  return -1;
+}
+
+// ------- interface handlers for different tasks ----
 int kernel_request_handle_wifi_connect(KernelPacket &v)
 {
-  return 0;
+  interface_wifi_connect_req *req;
+  int ret = -1;
+  
+  req = reinterpret_cast<interface_wifi_connect_req *>(v.ptr);
+  
+  if(req != NULL) {
+    ret = kernel_request_handle_wifi_connect(req->ssid, req->pass);
+
+    //TODO add response to response queue
+  }
+  return ret;
 }
 
 int kernel_request_handle_wifi_disconnect(KernelPacket &v)
