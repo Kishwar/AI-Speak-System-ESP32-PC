@@ -41,7 +41,7 @@ int create_interface(KernelPacket &, int);
 
 void destroy_interface(KernelPacket &);
 
-int send_recv_interface_async(KernelPacket &);
+int send_interface_async(KernelPacket &, int);
 
 // ----- req / rsp for different tasks ------
 struct interface_wifi_connect_req

@@ -20,7 +20,7 @@
 static bool _isConnected = false;
 static std::string _ipAddress;
 
-void connect(std::string &ssid, std::string &password)
+void wificonnect(std::string &ssid, std::string &password)
 {
   wifi_config_t sta_config;
   esp_err_t ret = nvs_flash_init();
@@ -94,12 +94,6 @@ bool getLocalIP(std::string ip)
   }
 
   return false;
-}
-
-int kernel_request_handle_wifi_connect(std::string &ssid, std::string &pass)
-{
-
-  return 0;
 }
 
 int kernel_request_handle_wifi_disconnect(std::string &ssid)

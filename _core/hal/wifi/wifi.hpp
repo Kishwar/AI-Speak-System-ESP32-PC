@@ -23,7 +23,7 @@
  *     password   [in]
  *     password for the given ssid
  */
-void connect(std::string &ssid, std::string &password);
+void wificonnect(std::string &, std::string &);
 
 /*
  * Check if module is connected with WIFI
@@ -41,8 +41,6 @@ bool isconnected(void);
  *     returns OK (true) / ERROR (false)
  */
 bool getLocalIP(std::string ip);
-
-int kernel_request_handle_wifi_connect(std::string &ssid, std::string &pass);
 
 int kernel_request_handle_wifi_disconnect(std::string &ssid);
 
