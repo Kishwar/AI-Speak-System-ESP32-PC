@@ -13,6 +13,8 @@
 #include "interface.hpp"
 #include "core.hpp"
 
+
+
 int create_interface(KernelPacket &pmsg, int size, int id)
 {
   pmsg.ptr = new uint8_t[size];
@@ -27,7 +29,7 @@ void destroy_interface(KernelPacket &pmsg)
   pmsg.ptr = NULL;
 }
 
-int send_recv_interface_async(KernelPacket &req)
+int send_interface_async(KernelPacket &req, int timeout = 10)
 {
-  return kernel_add_to_req_queue(req);
+  return kernel_add_to_req_queue(req, timeout);
 }
