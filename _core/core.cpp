@@ -61,6 +61,7 @@ KernelHandler hdl[] = {
 
   //read
 
+
 };
 
 static void _thread_received(void *ptr)
@@ -128,7 +129,14 @@ void _handle_recv(KernelPacket *ptr)
 {
   if(ptr == NULL) return;
 
-  //apply BST to find handler
-  
-  
+  int len = sizeof(hdl) / sizeof(hdl[0]);
+  int i = 0;
+  while(i < len) {
+    if(hdl[i].req == ptr->identifier) {
+      //handle the case here
+      hdl[i].hdl(*ptr);
+      break;
+    }
+    i += abs(ptr->identifier - hdl[i].req);
+  }
 }
