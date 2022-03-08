@@ -20,15 +20,21 @@ static const char TAG[] = "CORE_KERNEL";
 
 static const int RECEIVE_QUEUE_LENGTH = 10;
 static const int SEND_QUEUE_LENGTH = 10;
+#if 0 //not implemented
 static const int IND_QUEUE_LENGTH = 15;
+#endif
 
 BaseType_t xTask_Receive = pdFAIL;
 BaseType_t xTask_Send = pdFAIL;
+#if 0 //not implemented
 BaseType_t xTask_Ind = pdFAIL;
+#endif
 
 QueueHandle_t xQueue_Receive = NULL;
 QueueHandle_t xQueue_Send = NULL;
+#if 0 //not implemented
 QueueHandle_t xQueue_Ind = NULL;
+#endif
 
 static void _handle_recv(KernelPacket &ptr);
 
@@ -82,15 +88,17 @@ static void _thread_send(void *ptr)
   }
 }
 
+#if 0 //not implemented
 static void _thread_ind(void *ptr)
 {
   while(true) {
 
   }
 }
+#endif
 
 // Kernel thread starting point
-void kernel_core(void *ptr)
+void kernel_core(void)
 {
   esp_log_level_set(TAG, ESP_LOG_INFO);
 
@@ -99,27 +107,33 @@ void kernel_core(void *ptr)
   //start receive queue & thread
   xQueue_Receive = xQueueCreate(RECEIVE_QUEUE_LENGTH, sizeof(KernelPacket));
   CHECK_TRUE(xQueue_Receive != NULL);
+  LOG_INFO(TAG, "xQueue_Receive created..");
 
   xTask_Receive = xTaskCreate(_thread_received, "THREAD_RECIVED", 4096, NULL, 20, NULL);
   CHECK_TRUE(xTask_Receive == pdPASS);
+  LOG_INFO(TAG, "xTask_Receive created..");
 
   //start send queue & thread
   xQueue_Send = xQueueCreate(SEND_QUEUE_LENGTH, sizeof(KernelPacket));
   CHECK_TRUE(xQueue_Send != NULL);
+  LOG_INFO(TAG, "xQueue_Send created..");
 
-  xTask_Send = xTaskCreate(_thread_send, "THREAD_SEND", 4096, NULL, 19, NULL);
+  xTask_Send = xTaskCreate(_thread_send, "THREAD_SEND", 4096, NULL, 20, NULL);
   CHECK_TRUE(xTask_Send == pdPASS);  
-  
+  LOG_INFO(TAG, "xTask_Send created..");
+
+#if 0 //not implemented
   //start indication queue & thread
   xQueue_Ind = xQueueCreate(IND_QUEUE_LENGTH, sizeof(KernelPacket));
   CHECK_TRUE(xQueue_Ind != NULL);
+  LOG_INFO(TAG, "xQueue_Ind created..");
 
-  xTask_Ind = xTaskCreate(_thread_ind, "THREAD_IND", 4096, NULL, 10, NULL);
+  xTask_Ind = xTaskCreate(_thread_ind, "THREAD_IND", 4096, NULL, 20, NULL);
   CHECK_TRUE(xTask_Ind == pdPASS);
+  LOG_INFO(TAG, "xTask_Ind created..");
+#endif
 
   LOG_INFO(TAG, "kernel_core queues and threads started ...");
-
-  vTaskDelete(NULL);
 }
 
 void _handle_recv(KernelPacket &ptr)
@@ -137,7 +151,7 @@ void _handle_recv(KernelPacket &ptr)
   }
 }
 
-int kernel_add_to_req_queue(KernelPacket &req, int timeout = 10)
+int kernel_add_to_req_queue(KernelPacket &req, int timeout)
 {
   LOG_INFO(TAG, "received message %d", req.identifier);
 
@@ -153,7 +167,8 @@ int kernel_add_to_req_queue(KernelPacket &req, int timeout = 10)
 int kernel_request_handle_wifi_connect(KernelPacket &v)
 {
   interface_wifi_connect_req *req;
-  
+  LOG_INFO(TAG, "%d", v.identifier);
+
   req = reinterpret_cast<interface_wifi_connect_req *>(v.ptr);
   
   if(req != NULL) {

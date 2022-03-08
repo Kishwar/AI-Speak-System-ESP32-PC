@@ -38,14 +38,13 @@ struct KernelHandler
   req_handl hdl;
 };
 
-void kernel_core(void *);
+void kernel_core(void);
 
-int kernel_add_to_req_queue(KernelPacket &, int);
+int kernel_add_to_req_queue(KernelPacket &, int = 10);
 
+//wifi handlers
 int kernel_request_handle_wifi_connect(KernelPacket &);
-
 int kernel_request_handle_wifi_disconnect(KernelPacket &);
-
 int kernel_request_handle_wifi_get_ip(KernelPacket &);
 
 #endif // _CORE_HPP_

@@ -37,11 +37,13 @@ struct KernelPacket
   uint32_t ptr_len;
 };
 
-int create_interface(KernelPacket &, int);
+void start_interface(void);
+
+int create_interface(KernelPacket &, int, int);
 
 void destroy_interface(KernelPacket &);
 
-int send_interface_async(KernelPacket &, int);
+int send_interface_async(KernelPacket &, int = 10);
 
 // ----- req / rsp for different tasks ------
 struct interface_wifi_connect_req

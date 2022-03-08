@@ -13,7 +13,13 @@
 #include "interface.hpp"
 #include "core.hpp"
 
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
+void start_interface(void)
+{
+  kernel_core();
+}
 
 int create_interface(KernelPacket &pmsg, int size, int id)
 {
@@ -29,7 +35,7 @@ void destroy_interface(KernelPacket &pmsg)
   pmsg.ptr = NULL;
 }
 
-int send_interface_async(KernelPacket &req, int timeout = 10)
+int send_interface_async(KernelPacket &req, int timeout)
 {
   return kernel_add_to_req_queue(req, timeout);
 }
