@@ -12,7 +12,8 @@
 
 cmake_minimum_required(VERSION 3.16.0)
 
-list(APPEND EXTRA_COMPONENT_DIRS "_core"
+list(APPEND EXTRA_COMPONENT_DIRS "src"
+                                 "_core"
                                  "_crypt"
                                  "app")
                                 
