@@ -25,7 +25,7 @@ extern "C" void app_main() {
     req->ssid = "FRITZ!Box 7590 NU";
     req->pass = "StartItAgain..601";
 
-    //send_interface_async(v);
+    send_interface_async(v);
   }
 #endif
   while(1) {
