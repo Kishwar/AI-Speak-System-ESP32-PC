@@ -22,8 +22,8 @@ extern "C" void app_main() {
     create_interface(v, sizeof(interface_wifi_connect_req), KERNEL_REQUEST_CONNECT_TO_WIFI_REQ);
     
     req = reinterpret_cast<interface_wifi_connect_req *>(v.ptr);
-    req->ssid = "FRITZ!Box 7590 NU";
-    req->pass = "StartItAgain..601";
+    req->ssid = "";
+    req->pass = "";
 
     send_interface_async(v);
   }
